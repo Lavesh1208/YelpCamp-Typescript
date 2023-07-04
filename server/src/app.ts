@@ -22,15 +22,16 @@ app.use(
 );
 app.use(morgan('common'));
 app.use(bodyParser.json({ limit: '30mb' }));
-app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // ROUTES
-app.use('/campground', campgroundRoutes);
+app.use('/', campgroundRoutes);
 
 const PORT = config.get<number>('port');
 
 app.listen(PORT, async () => {
    await connect();
-   log.info('Listening on port 3000');
+   log.info(`Listening on port http://localhost:${PORT}`);
 });
