@@ -4,6 +4,7 @@ import AllCampgrounds from "./scenes/AllCampgrounds";
 import SingleCamp from "./scenes/SingleCamp";
 import Layout from "./scenes/Layout";
 import CreateCamp from "./scenes/CreateCamp";
+import UpdateCamp from "./scenes/UpdateCamp";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/campgrounds" element={<AllCampgrounds />} />
             <Route path="/campgrounds/:id" element={<SingleCamp />} />
             <Route path="/campgrounds/new" element={<CreateCamp />} />
+            <Route path="/campgrounds/:id/edit" element={<UpdateCamp />} />
           </Route>
         </Routes>
       </BrowserRouter>
