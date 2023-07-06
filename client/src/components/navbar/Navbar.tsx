@@ -29,7 +29,7 @@ const Navbar = () => {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
           <a href="/">
-            <img className="w-40" src="/images/Logo.svg" alt="logo" />
+            <img className="w-48" src="/images/Logo.svg" alt="logo" />
           </a>
         </div>
         <div className="hidden grow items-start lg:flex">

@@ -1,6 +1,12 @@
 import { CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const onClickHandler = () => {
+    navigate("/campgrounds");
+  };
   return (
     <div className="relative w-screen h-full overflow-hidden bg-[#F9F6F1]">
       <div className="block md:absolute w-44 top-10 left-20">
@@ -30,6 +36,7 @@ const Home = () => {
             </li>
           </ul>
           <button
+            onClick={onClickHandler}
             type="button"
             className="rounded-md bg-black px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-black/80 max-w-fit"
           >
@@ -38,7 +45,7 @@ const Home = () => {
           <form action="" className="mt-4 flex items-start space-x-2">
             <div>
               <input
-                className="flex w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
                 type="email"
                 placeholder="Enter your email"
                 id="email"
