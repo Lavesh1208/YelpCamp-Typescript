@@ -1,5 +1,6 @@
 import CampgroundCard from "@/components/CampgroundCard";
 import { Search } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const arr = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
@@ -35,7 +36,7 @@ const AllCampgrounds = () => {
           </div>
         </form>
         <div className="hover:underline underline-offset-2">
-          <a href="#">Or add your own campgrounds</a>
+          <Link to="/campgrounds/new">Or add your own campgrounds</Link>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-10 gap-10">

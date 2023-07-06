@@ -3,6 +3,7 @@ import Home from "./scenes/Home";
 import AllCampgrounds from "./scenes/AllCampgrounds";
 import SingleCamp from "./scenes/SingleCamp";
 import Layout from "./scenes/Layout";
+import CreateCamp from "./scenes/CreateCamp";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/campgrounds" element={<AllCampgrounds />} />
             <Route path="/campgrounds/:id" element={<SingleCamp />} />
+            <Route path="/campgrounds/new" element={<CreateCamp />} />
           </Route>
         </Routes>
       </BrowserRouter>

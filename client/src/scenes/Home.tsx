@@ -42,27 +42,6 @@ const Home = () => {
           >
             Visit Campgrounds Page
           </button>
-          <form action="" className="mt-4 flex items-start space-x-2">
-            <div>
-              <input
-                className="flex w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
-                type="email"
-                placeholder="Enter your email"
-                id="email"
-              ></input>
-              <p className="mt-3 text-sm text-gray-500">
-                We care about your privacy
-              </p>
-            </div>
-            <div>
-              <button
-                type="button"
-                className="rounded-md bg-black px-3 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-              >
-                Subscribe
-              </button>
-            </div>
-          </form>
           <div className="mt-2 flex max-w-max items-center space-x-2 rounded-full bg-gray-200 pl-1 pr-3.5 py-1">
             <div className="rounded-full bg-[#F9F6F1] py-1 px-3.5">
               <p className="text-sm font-semibold">View Code</p>
