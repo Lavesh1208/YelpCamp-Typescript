@@ -1,6 +1,12 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 const CampgroundCard = () => {
+  const navigate = useNavigate();
+
+  const onClickHandler = () => {
+    navigate("/campgrounds/someId");
+  };
   return (
     <div className="rounded-md border">
       <img
@@ -9,9 +15,12 @@ const CampgroundCard = () => {
         className="h-60 w-full rounded-t-md object-cover"
       />
       <div className="p-4">
-        <h1 className="inline-flex items-center text-lg font-semibold">
+        <Link
+          to="/campgrounds/someId"
+          className="inline-flex items-center text-lg font-semibold"
+        >
           About Campground &nbsp; <ArrowUpRight className="h-4 w-4" />
-        </h1>
+        </Link>
         <p className="mt-3 text-sm text-gray-600 text-ellipsis overflow-hidden h-20">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime,
           officiis nobis vel consequuntur asperiores velit quis dolorum mollitia
@@ -22,6 +31,7 @@ const CampgroundCard = () => {
           Recusandae consequatur veritatis sint ducimus.
         </p>
         <button
+          onClick={onClickHandler}
           type="button"
           className="mt-4 w-full rounded-md bg-black px-2 py-2 font-semibold text-white shadow-sm hover:bg-black/80"
         >
