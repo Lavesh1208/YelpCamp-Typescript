@@ -1,4 +1,4 @@
-import { ICampground } from '../interfaces/campground.interface';
+import { ICampgroundDocument } from '../interfaces/campground.interface';
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
@@ -14,6 +14,9 @@ const CampgroundSchema = new Schema(
    }
 );
 
-const Campground = mongoose.model<ICampground>('Campground', CampgroundSchema);
+const Campground = mongoose.model<ICampgroundDocument>(
+   'Campground',
+   CampgroundSchema
+);
 
 export default Campground;

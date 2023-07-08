@@ -1,17 +1,13 @@
-import { Document, ObjectId } from 'mongoose';
+import { Document } from 'mongoose';
 
 export interface ICampgroundInput {
    title: string;
-   price: string;
+   price: number;
    description: string;
    location: string;
 }
 
-export interface ICampground extends ICampgroundInput, Document {
+export interface ICampgroundDocument extends ICampgroundInput, Document {
    createdAt: Date;
    updatedAt: Date;
-}
-
-export interface ICampground {
-   _id: ObjectId;
 }
