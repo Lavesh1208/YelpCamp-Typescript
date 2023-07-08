@@ -1,3 +1,5 @@
+import { ICampground } from "@/interfaces/campground.interface";
+import { useGetSingleCampQuery } from "@/state/campgroundApi";
 import {
   ChevronLeft,
   ChevronRight,
@@ -6,13 +8,24 @@ import {
   MessageCircle,
   Trash,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const SingleCamp = () => {
+  const { id: _id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
-  const onClickHandler = (target: string) => {
-    navigate(`/campgrounds/someId/${target}`);
+  const { data: campground } = useGetSingleCampQuery(_id || "");
+
+  if (!campground) {
+    return <div>Loading...</div>;
+  }
+
+  const { title, description, image, price, location }: ICampground =
+    campground;
+
+  const handleEditButton = (target: string) => {
+    navigate(`/campgrounds/${_id}/${target}`, { state: { data: campground } });
   };
+
   return (
     <div className="mx-auto max-w-7xl px-2 py-6 lg:px-0">
       <div className="overflow-hidden">
@@ -22,7 +35,7 @@ const SingleCamp = () => {
               <div className="relative flex items-center justify-center">
                 <img
                   alt="Product gallery 1"
-                  src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                  src={image}
                   className="rounded-lg object-cover w-full h-[700px]"
                 />
               </div>
@@ -34,42 +47,31 @@ const SingleCamp = () => {
 
             <div className="shrink-0 min-h-fit space-y-4 flex-col justify-between">
               <h2 className="text-xl font-bold md:text-2xl xl:text-3xl">
-                Campground Title
+                {title}
               </h2>
 
               <div className="flex items-center gap-2">
                 <p className="text-lg font-bold">Price: </p>
-                <p className="">$250</p>
+                <p className="">${price}</p>
               </div>
 
               <div className="flex items-center gap-2">
                 <h4 className="text-lg font-bold">Location:</h4>
                 <div className="flex gap-1">
-                  <p>City,</p>
-                  <p>State</p>
+                  <p>{location}</p>
                 </div>
               </div>
 
               <div className="">
                 <h3 className="text-lg font-bold">Description:</h3>
                 <p className="text-ellipsis overflow-hidden max-h-40">
-                  A chip (often just chip, or crisp in British and Irish
-                  English) may be a thin slice of potato that has been either
-                  deep fried or baked until crunchy. theyre commonly served as a
-                  snack, side dish, or appetizer. A chip (often just chip, or
-                  crisp in British and Irish English) may be a thin slice of
-                  potato that has been either deep fried or baked until crunchy.
-                  theyre commonly served as a snack, side dish, or appetizer. A
-                  chip (often just chip, or crisp in British and Irish English)
-                  may be a thin slice of potato that has been either deep fried
-                  or baked until crunchy. theyre commonly served as a snack,
-                  side dish, or appetizer.
+                  {description}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <button
-                  onClick={() => onClickHandler("edit")}
+                  onClick={() => handleEditButton("edit")}
                   type="button"
                   className="inline-flex items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80"
                 >

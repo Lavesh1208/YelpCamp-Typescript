@@ -1,7 +1,8 @@
-export interface Campground {
-  id: number;
+export interface ICampground {
+  _id: number;
   title: string;
   price: number;
+  image: string;
   description: string;
   location: string;
   created_at: Date;

@@ -1,11 +1,17 @@
+import { ICampground } from "@/interfaces/campground.interface";
 import { ArrowUpRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
-const CampgroundCard = () => {
+interface CampgroundCardProps {
+  campground: ICampground;
+}
+
+const CampgroundCard: React.FC<CampgroundCardProps> = ({ campground }) => {
+  const { _id, title, description } = campground;
   const navigate = useNavigate();
 
   const onClickHandler = () => {
-    navigate("/campgrounds/someId");
+    navigate(`/campgrounds/${_id}`);
   };
   return (
     <div className="rounded-md border">
@@ -16,19 +22,13 @@ const CampgroundCard = () => {
       />
       <div className="p-4">
         <Link
-          to="/campgrounds/someId"
+          to={`/campgrounds/${_id}`}
           className="inline-flex items-center text-lg font-semibold"
         >
-          About Campground &nbsp; <ArrowUpRight className="h-4 w-4" />
+          {title} &nbsp; <ArrowUpRight className="h-4 w-4" />
         </Link>
         <p className="mt-3 text-sm text-gray-600 text-ellipsis overflow-hidden h-20">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime,
-          officiis nobis vel consequuntur asperiores velit quis dolorum mollitia
-          rem atque modi illo et nemo voluptatem minima. Deserunt velit
-          doloremque illum. Dolorum quas possimus facere molestiae saepe dolorem
-          laboriosam debitis at, temporibus eligendi commodi ratione facilis
-          quia ut suscipit ex sed molestias tempora iure distinctio perferendis!
-          Recusandae consequatur veritatis sint ducimus.
+          {description}
         </p>
         <button
           onClick={onClickHandler}
