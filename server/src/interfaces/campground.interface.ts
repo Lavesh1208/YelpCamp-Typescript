@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 export interface ICampgroundInput {
    title: string;
    price: number;
+   image: string;
    description: string;
    location: string;
 }
