@@ -15,7 +15,7 @@ const AllCampgrounds = () => {
           own.
         </p>
         <form className="mt-4 flex items-start space-x-2">
-          <div className="flex gap-2 max-w-fit rounded-md border border-black/30 bg-white px-5 py-3.5 placeholder:text-gray-600">
+          <div className="flex gap-2 max-w-fit rounded-md border border-black/30 bg-white px-3.5 py-3.5 placeholder:text-gray-600">
             <Search />
             <input
               className="focus:outline-none"
