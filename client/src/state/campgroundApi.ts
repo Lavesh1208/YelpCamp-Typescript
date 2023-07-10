@@ -10,6 +10,16 @@ export const campgroundApi = createApi({
     getCampgrounds: builder.query<ICampground[], void>({
       query: () => "/campgrounds",
       providesTags: ["AllCampgrounds"],
+      transformResponse: (response: ICampground[]) => {
+        const sortedData = response.sort((a, b) => {
+          // Assuming 'createdAt' field is used for sorting
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        });
+
+        return sortedData;
+      },
     }),
     getSingleCamp: builder.query<ICampground, string>({
       query: (id) => `/campgrounds/${id}`,
@@ -31,6 +41,13 @@ export const campgroundApi = createApi({
       }),
       invalidatesTags: ["AllCampgrounds", "SingleCampground"],
     }),
+    deleteCamp: builder.mutation<string, string>({
+      query: (id) => ({
+        url: `/campgrounds/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["AllCampgrounds"],
+    }),
   }),
 });
 
@@ -39,4 +56,5 @@ export const {
   useGetSingleCampQuery,
   useCreateCampMutation,
   useUpdateCampMutation,
+  useDeleteCampMutation,
 } = campgroundApi;

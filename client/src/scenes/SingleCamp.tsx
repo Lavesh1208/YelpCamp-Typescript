@@ -1,5 +1,8 @@
 import { ICampground } from "@/interfaces/campground.interface";
-import { useGetSingleCampQuery } from "@/state/campgroundApi";
+import {
+  useDeleteCampMutation,
+  useGetSingleCampQuery,
+} from "@/state/campgroundApi";
 import {
   ChevronLeft,
   ChevronRight,
@@ -11,11 +14,12 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 
 const SingleCamp = () => {
+  const [deleteCamp] = useDeleteCampMutation();
   const { id: _id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const { data: campground } = useGetSingleCampQuery(_id || "");
 
-  if (!campground) {
+  if (!campground || !_id) {
     return <div>Loading...</div>;
   }
 
@@ -24,6 +28,11 @@ const SingleCamp = () => {
 
   const handleEditButton = (target: string) => {
     navigate(`/campgrounds/${_id}/${target}`, { state: { data: campground } });
+  };
+
+  const handleDeleteButton = () => {
+    deleteCamp(_id);
+    navigate("/campgrounds");
   };
 
   return (
@@ -79,6 +88,7 @@ const SingleCamp = () => {
                   <span className="block">Edit</span>
                 </button>
                 <button
+                  onClick={handleDeleteButton}
                   type="button"
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80"
                 >

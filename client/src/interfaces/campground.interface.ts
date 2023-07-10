@@ -5,6 +5,6 @@ export interface ICampground {
   image: string;
   description: string;
   location: string;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
