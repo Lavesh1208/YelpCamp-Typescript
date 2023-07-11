@@ -8,6 +8,7 @@ import {
 } from '../services/campground.service';
 import { Logger } from 'pino';
 import logger from '../utils/logger';
+import ExpressError from '../utils/ExpressError';
 
 const log: Logger = logger.createLogger('campground controller');
 
@@ -22,6 +23,8 @@ export const getCampgroundByIdHandler = async (req: Request, res: Response) => {
 };
 
 export const createCampgroundHandler = async (req: Request, res: Response) => {
+   if (!req.body.campground)
+      throw new ExpressError('Invalid Campground Data', 400);
    const campground = await createCampground(req.body.campground);
    res.send(campground);
 };

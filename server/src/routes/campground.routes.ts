@@ -6,17 +6,18 @@ import {
    updateProductHandler,
    deleteProductHandler,
 } from '../controllers/campground.controller';
+import catchAsync from '../utils/catchAsync';
 
 const router = express.Router();
 
-router.get('/campgrounds', getCampgroundsHandler);
+router.get('/campgrounds', catchAsync(getCampgroundsHandler));
 
-router.get('/campgrounds/:id', getCampgroundByIdHandler);
+router.get('/campgrounds/:id', catchAsync(getCampgroundByIdHandler));
 
-router.post('/campgrounds', createCampgroundHandler);
+router.post('/campgrounds', catchAsync(createCampgroundHandler));
 
-router.put('/campgrounds/:id', updateProductHandler);
+router.put('/campgrounds/:id', catchAsync(updateProductHandler));
 
-router.delete('/campgrounds/:id', deleteProductHandler);
+router.delete('/campgrounds/:id', catchAsync(deleteProductHandler));
 
 export default router;

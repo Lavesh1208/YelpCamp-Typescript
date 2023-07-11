@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -8,6 +8,7 @@ import campgroundRoutes from './routes/campground.routes';
 import { Logger } from 'pino';
 import logger from './utils/logger';
 import connect from './utils/dbConnection';
+import ExpressError from './utils/ExpressError';
 
 const log: Logger = logger.createLogger('app');
 
@@ -28,6 +29,23 @@ app.use(cors());
 
 // ROUTES
 app.use('/', campgroundRoutes);
+
+app.all('*', (req: Request, res: Response, next: NextFunction) => {
+   next(new ExpressError('Page Not Found', 404));
+});
+
+const errorHandler = (
+   err: ExpressError,
+   req: Request,
+   res: Response,
+   next: NextFunction
+): void => {
+   const { statusCode = 500, message = 'Something went wrong' } = err;
+   log.error(err);
+   res.status(statusCode).send(message);
+};
+
+app.use(errorHandler);
 
 const PORT = config.get<number>('port');
 
