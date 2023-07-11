@@ -1,5 +1,4 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { DevTool } from "@hookform/devtools";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import Inputfield from "@/components/Inputfield";
 import { ICampground } from "@/interfaces/campground.interface";
@@ -8,16 +7,22 @@ import { useEffect } from "react";
 
 const UpdateCamp = () => {
   const [updateCamp, { isSuccess, data }] = useUpdateCampMutation();
-  const form = useForm<FieldValues>();
-  const { register, control, handleSubmit } = form;
   const navigate = useNavigate();
-  const location = useLocation();
+  const loc = useLocation();
 
-  const { _id, title, price, image, description }: ICampground =
-    location.state.data;
+  const { _id, title, price, location, image, description }: ICampground =
+    loc.state.data;
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FieldValues>();
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
-    await updateCamp({ _id, values });
+    const campground = { campground: { ...values } };
+    console.log(campground);
+    await updateCamp({ _id, campground });
   };
 
   useEffect(() => {
@@ -34,37 +39,50 @@ const UpdateCamp = () => {
         className="flex flex-col gap-3 h-full"
       >
         <Inputfield
+          id="title"
           inputType="text"
           labelText="Campground Title"
           value={title}
-          id="title"
-          placeHolderText="Enter Campground Title"
           register={register}
+          errors={errors}
+          placeHolderText="Enter Campground Title"
         />
         <Inputfield
+          id="location"
+          inputType="text"
+          labelText="Location"
+          value={location}
+          register={register}
+          errors={errors}
+          placeHolderText="Enter Campground Location"
+        />
+        <Inputfield
+          id="price"
           inputType="number"
           labelText="Price"
           value={price}
-          id="price"
-          placeHolderText="Enter Campground Price"
           register={register}
+          errors={errors}
+          placeHolderText="Enter Campground Price"
         />
         <Inputfield
+          id="image"
           inputType="text"
           labelText="Image"
           value={image}
-          id="image"
-          placeHolderText="Imge Url"
           register={register}
+          errors={errors}
+          placeHolderText="Imge Url"
         />
         <Inputfield
+          id="description"
           inputType="text"
           labelText="Description"
           value={description}
-          id="description"
-          placeHolderText="Give a description of your camp"
           isTextArea={true}
           register={register}
+          errors={errors}
+          placeHolderText="Give a description of your camp"
         />
         <button
           type="submit"
@@ -73,7 +91,6 @@ const UpdateCamp = () => {
           Confirm and Update
         </button>
       </form>
-      <DevTool control={control} />
     </div>
   );
 };

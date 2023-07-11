@@ -34,10 +34,10 @@ export const campgroundApi = createApi({
       invalidatesTags: ["AllCampgrounds"],
     }),
     updateCamp: builder.mutation<ICampground, FieldValues>({
-      query: ({ _id, values }) => ({
+      query: ({ _id, campground }) => ({
         url: `/campgrounds/${_id}`,
         method: "PUT",
-        body: values,
+        body: campground,
       }),
       invalidatesTags: ["AllCampgrounds", "SingleCampground"],
     }),
