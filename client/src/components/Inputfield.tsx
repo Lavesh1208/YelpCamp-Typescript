@@ -34,27 +34,25 @@ const Inputfield: React.FC<InputfieldProps> = ({
           cols={5}
           defaultValue={value}
           placeholder={placeHolderText}
-          {...register(id, { required: `${id} is required` })}
+          {...register(id, {
+            required: `${id[0].toUpperCase() + id.slice(1)} is required`,
+          })}
         />
       ) : (
-        <div className="w-full">
-          <input
-            className="w-full rounded-md border-black/30 bg-[#F9F6F1] outline-none px-3 py-3.5 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/80"
-            id={id}
-            type={inputType}
-            step={1}
-            placeholder={placeHolderText}
-            {...register(id, {
-              required: `${id[0].toUpperCase() + id.slice(1)} is required`,
-            })}
-            defaultValue={value}
-          />
-        </div>
+        <input
+          className="w-full rounded-md border-black/30 bg-[#F9F6F1] outline-none px-3 py-3.5 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/80"
+          id={id}
+          type={inputType}
+          step={1}
+          placeholder={placeHolderText}
+          {...register(id, {
+            required: `${id[0].toUpperCase() + id.slice(1)} is required`,
+          })}
+          defaultValue={value}
+        />
       )}
 
-      <p className="text-red-500 text-xs font-semibold">
-        {errors[id]?.message?.toString()}
-      </p>
+      <p className="text-red-600 text-sm">{errors[id]?.message?.toString()}</p>
     </div>
   );
 };

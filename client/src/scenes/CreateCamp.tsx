@@ -15,7 +15,12 @@ const CreateCamp = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
-    const campground = { campground: { ...values } };
+    const campground = {
+      campground: {
+        ...values,
+        price: parseFloat(values.price as string),
+      },
+    };
     await addCamp(campground);
   };
 
