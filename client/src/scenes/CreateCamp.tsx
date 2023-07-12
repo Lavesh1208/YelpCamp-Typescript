@@ -30,7 +30,6 @@ const CreateCamp = () => {
     } else if (error) {
       if ("data" in error) {
         toast.error(error.data as string);
-        console.log(error.data);
       } else {
         toast.error("An error occurred.");
         console.log(error);

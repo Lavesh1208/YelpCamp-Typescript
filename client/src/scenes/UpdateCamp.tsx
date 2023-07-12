@@ -1,12 +1,13 @@
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
 import Inputfield from "@/components/Inputfield";
 import { ICampground } from "@/interfaces/campground.interface";
 import { useUpdateCampMutation } from "@/state/campgroundApi";
-import { useEffect } from "react";
 
 const UpdateCamp = () => {
-  const [updateCamp, { isSuccess, data }] = useUpdateCampMutation();
+  const [updateCamp, { isSuccess, data, error }] = useUpdateCampMutation();
   const navigate = useNavigate();
   const loc = useLocation();
 
@@ -20,16 +21,27 @@ const UpdateCamp = () => {
   } = useForm<FieldValues>();
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
-    const campground = { campground: { ...values } };
-    console.log(campground);
+    const campground = {
+      campground: {
+        ...values,
+        price: parseFloat(values.price as string),
+      },
+    };
     await updateCamp({ _id, campground });
   };
 
   useEffect(() => {
     if (isSuccess && data) {
       navigate(`/campgrounds/${data._id}`);
+    } else if (error) {
+      if ("data" in error) {
+        toast.error(error.data as string);
+      } else {
+        toast.error("An error occurred.");
+        console.log(error);
+      }
     }
-  }, [isSuccess, data, navigate]);
+  }, [isSuccess, data, navigate, error]);
 
   return (
     <div className="md:w-1/2 mx-auto h-full">
