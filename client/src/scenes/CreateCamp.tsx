@@ -26,6 +26,7 @@ const CreateCamp = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
+      toast.success("Campground Added");
       navigate(`/campgrounds/${data._id}`);
     } else if (error) {
       if ("data" in error) {
