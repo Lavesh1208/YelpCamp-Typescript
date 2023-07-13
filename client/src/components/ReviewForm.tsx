@@ -8,8 +8,7 @@ import { useGetSingleCampQuery } from "@/state/campgroundApi";
 
 const ReviewForm = ({ _id }: { _id: string }) => {
   const navigate = useNavigate();
-  const { data: campground, refetch: refetchCampground } =
-    useGetSingleCampQuery(_id || "");
+  const { refetch: refetchCampground } = useGetSingleCampQuery(_id || "");
   const {
     register,
     handleSubmit,
@@ -44,33 +43,37 @@ const ReviewForm = ({ _id }: { _id: string }) => {
   }, [data, error, isSuccess, _id, navigate, refetchCampground]);
 
   return (
-    <div className="mt-4 relative">
-      <div className="font-bold text-3xl my-3">Leave a Review</div>
+    <div className="relative">
+      <div className="font-bold text-3xl mb-3">Leave a Review</div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label className="text-xl font-bold" htmlFor="rating">
-          Rating
-        </label>
-        <input
-          className="w-full appearance-none rounded-full bg-[#F9F6F1]"
-          id="rating"
-          type="range"
-          min={0}
-          max={5}
-          {...register("rating")}
-        />
-        <label className="text-xl font-bold" htmlFor="rating">
-          Review
-        </label>
-        <textarea
-          className="w-full rounded-md border-black/30 bg-[#F9F6F1] outline-none px-3 py-3.5 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/80"
-          id="review"
-          rows={10}
-          cols={5}
-          placeholder="Write a Review"
-          {...register("body", {
-            required: "Review is required",
-          })}
-        />
+        <div className="mb-2">
+          <label className="text-xl font-bold" htmlFor="rating">
+            Rating
+          </label>
+          <input
+            className="w-full appearance-none rounded-full bg-[#F9F6F1]"
+            id="rating"
+            type="range"
+            min={0}
+            max={5}
+            {...register("rating")}
+          />
+        </div>
+        <div className="mb-2">
+          <label className="text-xl font-bold" htmlFor="rating">
+            Review
+          </label>
+          <textarea
+            className="w-full rounded-md border-black/30 bg-[#F9F6F1] outline-none px-3 py-3.5 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/80"
+            id="review"
+            rows={5}
+            cols={5}
+            placeholder="Write a Review"
+            {...register("body", {
+              required: "Review is required",
+            })}
+          />
+        </div>
         <p className="text-red-600 text-sm">{errors.body?.message}</p>
         <button
           type="submit"

@@ -12,5 +12,5 @@ export interface ICampground {
 }
 
 export interface ICampAndReview extends ICampground {
-  review?: IReview[];
+  reviews: IReview[];
 }

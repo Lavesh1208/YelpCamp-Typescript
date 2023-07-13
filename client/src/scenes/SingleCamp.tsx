@@ -1,5 +1,5 @@
 import ReviewForm from "@/components/ReviewForm";
-import { ICampAndReview, ICampground } from "@/interfaces/campground.interface";
+import { ICampAndReview } from "@/interfaces/campground.interface";
 import {
   useDeleteCampMutation,
   useGetSingleCampQuery,
@@ -12,11 +12,9 @@ import {
   MessageCircle,
   Trash,
 } from "lucide-react";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const SingleCamp = () => {
-  const [showReview, setshowReview] = useState(false);
   const [deleteCamp] = useDeleteCampMutation();
   const { id: _id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
@@ -26,8 +24,14 @@ const SingleCamp = () => {
     return <div>Loading...</div>;
   }
 
-  const { title, description, image, price, location, review }: ICampAndReview =
-    campground;
+  const {
+    title,
+    description,
+    image,
+    price,
+    location,
+    reviews,
+  }: ICampAndReview = campground;
 
   const handleEditButton = (target: string) => {
     navigate(`/campgrounds/${_id}/${target}`, { state: { data: campground } });
@@ -38,20 +42,16 @@ const SingleCamp = () => {
     navigate("/campgrounds");
   };
 
-  const handleReviewBox = () => {
-    setshowReview(!showReview);
-  };
-
   return (
     <div className="mx-auto max-w-7xl px-2 py-6 lg:px-0">
-      <div className="overflow-hidden mb-9 pt-4 md:px-6 md:pt-7 lg:mb-2">
-        <div className="flex-col">
+      <div className="flex gap-5 max-h-[88vh]">
+        <div className="w-[50%] flex-col">
           <div className="relative shrink-0 overflow-hidden rounded-md border md:mb-3">
             <div className="relative flex items-center justify-center">
               <img
                 alt="Product gallery 1"
                 src={image}
-                className="rounded-lg object-cover w-full h-[700px]"
+                className="rounded-lg object-cover w-full"
               />
             </div>
             <div className="absolute top-2/4 z-10 flex w-full items-center justify-between">
@@ -109,7 +109,6 @@ const SingleCamp = () => {
                 <span className="block">Like</span>
               </button>
               <button
-                onClick={handleReviewBox}
                 type="button"
                 className="inline-flex w-full items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80"
               >
@@ -120,7 +119,25 @@ const SingleCamp = () => {
           </div>
         </div>
 
-        {showReview && <ReviewForm _id={_id} />}
+        <div className="w-[50%] flex flex-col gap-5">
+          <div className="">
+            <ReviewForm _id={_id} />
+          </div>
+          <div className="space-y-3 h-full overflow-y-scroll">
+            {reviews?.map((review) => (
+              <div className="border-2 p-4" key={review._id}>
+                <div className="flex gap-3 text-xl font-bold">
+                  <h1>Rating:</h1>
+                  <p>{review.rating}</p>
+                </div>
+                <div className="flex gap-3 text-lg font-semibold">
+                  <h1>Review:</h1>
+                  <p>{review.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
