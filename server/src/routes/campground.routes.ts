@@ -10,6 +10,7 @@ import catchAsync from '../middleware/catchAsync';
 import validateResource from '../middleware/validateResource';
 import {
    createCampgroundSchema,
+   deleteCampgroundSchema,
    updateCampgroundSchema,
 } from '../schemas/campground.schema';
 
@@ -31,6 +32,10 @@ router.put(
    catchAsync(updateProductHandler)
 );
 
-router.delete('/campgrounds/:id', catchAsync(deleteProductHandler));
+router.delete(
+   '/campgrounds/:id',
+   validateResource(deleteCampgroundSchema),
+   catchAsync(deleteProductHandler)
+);
 
 export default router;

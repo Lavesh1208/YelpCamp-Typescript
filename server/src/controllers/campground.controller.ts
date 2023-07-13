@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import {
    createCampground,
-   deleteProduct,
+   deleteCampground,
    findAllCampgrounds,
    findCampgroundById,
-   updateProduct,
+   updateCampground,
 } from '../services/campground.service';
 import { Logger } from 'pino';
 import logger from '../utils/logger';
@@ -27,7 +27,6 @@ export const getCampgroundByIdHandler = async (
    res: Response
 ) => {
    const campground = await findCampgroundById(req.params.id);
-   console.log(campground);
    res.send(campground);
 };
 
@@ -48,7 +47,7 @@ export const updateProductHandler = async (
    res: Response
 ) => {
    const { id } = req.params;
-   const campground = await updateProduct(id, { ...req.body.campground });
+   const campground = await updateCampground(id, { ...req.body.campground });
    res.send(campground);
 };
 
@@ -57,6 +56,6 @@ export const deleteProductHandler = async (
    res: Response
 ) => {
    const { id } = req.params;
-   await deleteProduct(id);
-   res.send('Deleted');
+   await deleteCampground(id);
+   res.json({ message: 'Campground Deleted' });
 };

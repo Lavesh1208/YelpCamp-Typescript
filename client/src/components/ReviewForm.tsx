@@ -9,12 +9,13 @@ import { useGetSingleCampQuery } from "@/state/campgroundApi";
 const ReviewForm = ({ _id }: { _id: string }) => {
   const navigate = useNavigate();
   const { refetch: refetchCampground } = useGetSingleCampQuery(_id || "");
+  const [addReview, { isSuccess, data, error }] = useCreateReviewMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IReview>();
-  const [addReview, { isSuccess, data, error }] = useCreateReviewMutation();
 
   const onSubmit: SubmitHandler<IReview> = async (values) => {
     const review = {
@@ -77,7 +78,7 @@ const ReviewForm = ({ _id }: { _id: string }) => {
         <p className="text-red-600 text-sm">{errors.body?.message}</p>
         <button
           type="submit"
-          className="absolute bottom-5 right-5 mt-4 text-sm rounded-md bg-black px-5 py-3 font-semibold text-white shadow-sm hover:bg-black/80"
+          className="absolute bottom-5 right-5 mt-4 text-sm rounded-md bg-black px-5 py-3 font-semibold text-white shadow-sm hover:bg-green-600"
         >
           Submit
         </button>

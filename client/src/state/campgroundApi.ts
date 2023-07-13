@@ -41,7 +41,7 @@ export const campgroundApi = createApi({
       }),
       invalidatesTags: ["AllCampgrounds", "SingleCampground"],
     }),
-    deleteCamp: builder.mutation<string, string>({
+    deleteCamp: builder.mutation<void, string>({
       query: (id) => ({
         url: `/campgrounds/${id}`,
         method: "DELETE",

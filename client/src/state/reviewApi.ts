@@ -7,14 +7,23 @@ export const reviewApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/" }),
   tagTypes: ["AllReviews"],
   endpoints: (builder) => ({
-    createReview: builder.mutation<IReview, FieldValues>({
+    createReview: builder.mutation<
+      IReview,
+      { _id: string; review: FieldValues }
+    >({
       query: ({ _id, review }) => ({
         url: `campgrounds/${_id}/reviews`,
         method: "POST",
         body: review,
       }),
     }),
+    deleteReview: builder.mutation<void, { _id: string; reviewId: string }>({
+      query: ({ _id, reviewId }) => ({
+        url: `campgrounds/${_id}/reviews/${reviewId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useCreateReviewMutation } = reviewApi;
+export const { useCreateReviewMutation, useDeleteReviewMutation } = reviewApi;

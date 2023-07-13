@@ -1,5 +1,6 @@
 import { ICampgroundDocument } from '../interfaces/campground.interface';
 import mongoose from 'mongoose';
+import Review from './review.moddel';
 const Schema = mongoose.Schema;
 
 const CampgroundSchema = new Schema(
@@ -18,6 +19,15 @@ const CampgroundSchema = new Schema(
    },
    {
       timestamps: true,
+   }
+);
+
+CampgroundSchema.post(
+   'findOneAndDelete',
+   async function (doc: ICampgroundDocument) {
+      if (doc) {
+         await Review.deleteMany({ _id: { $in: doc.reviews } });
+      }
    }
 );
 

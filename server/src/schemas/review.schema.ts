@@ -23,9 +23,25 @@ const params = {
    }),
 };
 
+const extendedParams = {
+   params: object({
+      id: string({
+         required_error: 'Review id is required',
+      }),
+      reviewId: string({
+         required_error: 'Review id is required',
+      }),
+   }),
+};
+
 export const createReviewSchema = object({
    ...payload,
    ...params,
 });
 
+export const deleteReviewSchema = object({
+   ...extendedParams,
+});
+
 export type CreateReviewInput = TypeOf<typeof createReviewSchema>;
+export type DeleteReviewInput = TypeOf<typeof deleteReviewSchema>;
