@@ -9,6 +9,7 @@ export interface ICampgroundInput {
 }
 
 export interface ICampgroundDocument extends ICampgroundInput, Document {
+   reviews: Document[];
    createdAt: Date;
    updatedAt: Date;
 }

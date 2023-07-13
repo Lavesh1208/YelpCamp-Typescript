@@ -8,7 +8,6 @@ import {
 } from '../services/campground.service';
 import { Logger } from 'pino';
 import logger from '../utils/logger';
-import ExpressError from '../utils/ExpressError';
 import {
    CreateCampgroundInput,
    DeleteCampgroundInput,
@@ -28,6 +27,7 @@ export const getCampgroundByIdHandler = async (
    res: Response
 ) => {
    const campground = await findCampgroundById(req.params.id);
+   console.log(campground);
    res.send(campground);
 };
 

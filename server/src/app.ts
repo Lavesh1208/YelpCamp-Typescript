@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import config from 'config';
 import campgroundRoutes from './routes/campground.routes';
+import reviewRoutes from './routes/review.routes';
 import { Logger } from 'pino';
 import logger from './utils/logger';
 import connect from './utils/dbConnection';
@@ -29,6 +30,7 @@ app.use(cors());
 
 // ROUTES
 app.use('/', campgroundRoutes);
+app.use('/', reviewRoutes);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
    next(new ExpressError('Page Not Found', 404));
