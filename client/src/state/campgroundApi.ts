@@ -4,7 +4,10 @@ import { FieldValues } from "react-hook-form";
 
 export const campgroundApi = createApi({
   reducerPath: "campgroundApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:3000/",
+    credentials: "include",
+  }),
   tagTypes: ["AllCampgrounds", "SingleCampground", "NewCampground"],
   endpoints: (builder) => ({
     getCampgrounds: builder.query<ICampground[], void>({
