@@ -4,8 +4,10 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import config from 'config';
+import cookieParser from 'cookie-parser';
 import campgroundRoutes from './routes/campground.routes';
 import reviewRoutes from './routes/review.routes';
+import userRoutes from './routes/user.routes';
 import { Logger } from 'pino';
 import logger from './utils/logger';
 import connect from './utils/dbConnection';
@@ -26,11 +28,32 @@ app.use(morgan('common'));
 app.use(bodyParser.json({ limit: '30mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cookieParser());
+app.use(
+   cors({
+      origin: 'http://localhost:5173',
+      optionsSuccessStatus: 200,
+      credentials: true,
+   })
+);
+
+// const sessionConfig = {
+//    secret: 'thisshouldbeabettersecret',
+//    saveUninitialized: true,
+//    resave: false,
+//    cookie: {
+//       domain: 'localhost',
+//       path: '/',
+//       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+//       maxAge: 1000 * 60 * 60 * 24 * 7,
+//    },
+// };
+// app.use(session(sessionConfig));
 
 // ROUTES
 app.use('/', campgroundRoutes);
 app.use('/', reviewRoutes);
+app.use('/', userRoutes);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
    next(new ExpressError('Page Not Found', 404));
