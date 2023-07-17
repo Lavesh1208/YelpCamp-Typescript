@@ -43,7 +43,7 @@ export const loginUserHandler = async (
    const isPasswordMatched = await singleUser.comparePassword(password);
 
    if (!isPasswordMatched) {
-      return next(new ExpressError('Invalid  password', 401));
+      return next(new ExpressError('Invalid email or password', 401));
    }
 
    const token = singleUser.getJWTToken();

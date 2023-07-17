@@ -29,8 +29,12 @@ const CreateCamp = () => {
       toast.success("Campground Added");
       navigate(`/campgrounds/${data._id}`);
     } else if (error) {
-      if ("data" in error) {
+      if ("originalStatus" in error && error.originalStatus === 401) {
         toast.error(error.data as string);
+        navigate("/login");
+      } else if ("data" in error) {
+        toast.error(error.data as string);
+        console.log(error);
       } else {
         toast.error("An error occurred.");
         console.log(error);

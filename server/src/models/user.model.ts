@@ -42,7 +42,7 @@ userSchema.methods.getJWTToken = function () {
          resetPasswordToken: this.resetPasswordToken,
          resetPasswordExpires: this.resetPasswordExpires,
       },
-      config.get<string>('jwtsecret'),
+      config.get<string>('jwtSecret'),
       {
          expiresIn: 60 * 60 * 24 * 7,
       }

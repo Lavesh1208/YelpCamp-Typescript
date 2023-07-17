@@ -1,12 +1,12 @@
 import React from "react";
 import { Menu } from "lucide-react";
 import MobileNav from "./MobileNav";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const menuItems = [
   {
-    name: "Home",
-    href: "/",
+    name: "AllCampgrounds",
+    href: "/campgrounds",
   },
   {
     name: "About",
@@ -38,12 +38,12 @@ const Navbar = () => {
           <ul className="ml-12 inline-flex space-x-8">
             {menuItems.map((item) => (
               <li key={item.name}>
-                <a
-                  href={item.href}
+                <Link
+                  to={item.href}
                   className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900"
                 >
                   {item.name}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

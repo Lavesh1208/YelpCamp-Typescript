@@ -13,6 +13,7 @@ import {
    deleteCampgroundSchema,
    updateCampgroundSchema,
 } from '../schemas/campground.schema';
+import requireUser from '../middleware/requireUser';
 
 const router = express.Router();
 
@@ -22,13 +23,13 @@ router.get('/campgrounds/:id', catchAsync(getCampgroundByIdHandler));
 
 router.post(
    '/campgrounds',
-   validateResource(createCampgroundSchema),
+   [validateResource(createCampgroundSchema), requireUser],
    catchAsync(createCampgroundHandler)
 );
 
 router.put(
    '/campgrounds/:id',
-   validateResource(updateCampgroundSchema),
+   [validateResource(createCampgroundSchema), requireUser],
    catchAsync(updateProductHandler)
 );
 
