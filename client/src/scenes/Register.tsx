@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import Inputfield from "@/components/Inputfield";
 import { useRegisterUserMutation } from "@/state/userApi";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/state/global";
 
 const Register = () => {
   const {
@@ -12,6 +14,7 @@ const Register = () => {
     formState: { errors },
   } = useForm<FieldValues>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [addUser, { isSuccess, data, error }] = useRegisterUserMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
@@ -23,6 +26,7 @@ const Register = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
+      dispatch(setUser({ isUser: true, user: { ...data } }));
       toast.success("User Registered");
       navigate("/campgrounds");
     } else if (error) {
@@ -34,7 +38,7 @@ const Register = () => {
       }
       navigate("/register");
     }
-  }, [isSuccess, error, navigate, data]);
+  }, [isSuccess, error, navigate, data, dispatch]);
 
   return (
     <div className="md:w-1/2 mx-auto h-full">

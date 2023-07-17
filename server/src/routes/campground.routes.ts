@@ -13,7 +13,7 @@ import {
    deleteCampgroundSchema,
    updateCampgroundSchema,
 } from '../schemas/campground.schema';
-import requireUser from '../middleware/requireUser';
+import { requireUser } from '../middleware/userMiddleware';
 
 const router = express.Router();
 

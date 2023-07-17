@@ -12,6 +12,7 @@ import { Logger } from 'pino';
 import logger from './utils/logger';
 import connect from './utils/dbConnection';
 import ExpressError from './utils/ExpressError';
+import { checkCurrentUser } from './middleware/userMiddleware';
 
 const log: Logger = logger.createLogger('app');
 
@@ -50,10 +51,19 @@ app.use(
 // };
 // app.use(session(sessionConfig));
 
+// app.use(checkCurrentUser);
 // ROUTES
 app.use('/', campgroundRoutes);
 app.use('/', reviewRoutes);
 app.use('/', userRoutes);
+
+// app.get(
+//    '/currentUser',
+//    async (req: Request, res: Response, next: NextFunction) => {
+//       console.log('You hit these route');
+//       res.send('You Made it');
+//    }
+// );
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
    next(new ExpressError('Page Not Found', 404));

@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import MobileNav from "./MobileNav";
 import { Link, useNavigate } from "react-router-dom";
+import { useGetUserQuery, useLogoutUserMutation } from "@/state/userApi";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/state/store";
+import { setUser } from "@/state/global";
 
 const menuItems = [
   {
@@ -18,13 +23,43 @@ const menuItems = [
   },
 ];
 
-const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+interface NavbarProps {
+  isUser: boolean;
+  setIsUser: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Navbar: React.FC<NavbarProps> = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { data: user } = useGetUserQuery();
+  const [logoutUser] = useLogoutUserMutation();
+
+  const isUser = useSelector((state: RootState) => state.global.isUser);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const logoutHandler = async () => {
+    await logoutUser();
+    dispatch(setUser(false));
+    toast.success("Logged Out");
+  };
+
+  useEffect(() => {
+    if (user) {
+      toast(`Welcome Back, ${user.name} !`, {
+        icon: "👋",
+      });
+    }
+  }, [user]);
+
+  //   useEffect(() => {
+  //     if (isUser) {
+  //       navigate("/campgrounds");
+  //     }
+  //   }, [navigate]);
 
   return (
     <div className="relative w-full bg-white shadow-lg">
@@ -49,20 +84,32 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="hidden space-x-2 lg:block">
-          <button
-            onClick={() => navigate("/register")}
-            type="button"
-            className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-            Sign In
-          </button>
-          <button
-            onClick={() => navigate("/login")}
-            type="button"
-            className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-          >
-            Log In
-          </button>
+          {isUser ? (
+            <button
+              onClick={logoutHandler}
+              type="button"
+              className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm"
+            >
+              Logout
+            </button>
+          ) : (
+            <div>
+              <button
+                onClick={() => navigate("/register")}
+                type="button"
+                className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black hover:bg-black/10"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => navigate("/login")}
+                type="button"
+                className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm"
+              >
+                Log In
+              </button>
+            </div>
+          )}
         </div>
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />

@@ -4,6 +4,8 @@ import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import Inputfield from "@/components/Inputfield";
 import { useLoginUserMutation } from "@/state/userApi";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/state/global";
 
 const Login = () => {
   const {
@@ -12,6 +14,7 @@ const Login = () => {
     formState: { errors },
   } = useForm<FieldValues>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loginUser, { isSuccess, data, error }] = useLoginUserMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
@@ -23,6 +26,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
+      dispatch(setUser({ isUser: true, user: { ...data } }));
       toast.success("User Logged In");
       navigate("/campgrounds");
     } else if (error) {
@@ -34,7 +38,7 @@ const Login = () => {
         console.log(error);
       }
     }
-  }, [isSuccess, error, navigate, data]);
+  }, [isSuccess, error, navigate, data, dispatch]);
 
   return (
     <div className="md:w-1/2 mx-auto h-full">

@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import session from 'express-session';
 import { omit } from 'lodash';
+import jwt from 'jsonwebtoken';
+import config from 'config';
 import { CreateUserInput } from '../schemas/user.schema';
-import { createUser, getUser } from '../services/user.service';
+import { createUser, getUser, getUserById } from '../services/user.service';
 import { IUserDocument } from '../interfaces/user.interface';
 import ExpressError from '../utils/ExpressError';
 
@@ -55,4 +56,48 @@ export const loginUserHandler = async (
       maxAge: 1000 * 60 * 60 * 24 * 7,
    });
    res.send(user);
+};
+
+export const logoutUserHandler = async (
+   req: Request,
+   res: Response,
+   next: NextFunction
+) => {
+   console.log('checkLogout middleware applied');
+   res.cookie('token', '', {
+      httpOnly: true,
+      maxAge: 1,
+   });
+   console.log(res.cookie);
+   res.send('Logged Out');
+};
+
+export const getCurrentUserHandler = async (
+   req: Request,
+   res: Response,
+   next: NextFunction
+) => {
+   console.log('checkCurrentUser middleware applied');
+   const token = req.cookies.token;
+   if (!token) {
+      res.send(null);
+   }
+
+   jwt.verify(
+      token,
+      config.get<string>('jwtSecret'),
+      async (err: any, decodedToken: any) => {
+         if (err) {
+            res.locals.user = null;
+         } else {
+            const singleUser = await getUserById(decodedToken._id);
+            if (!singleUser) {
+               res.send(null);
+            } else {
+               const user = omit(singleUser.toJSON(), 'password');
+               res.send(user);
+            }
+         }
+      }
+   );
 };
