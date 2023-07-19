@@ -12,7 +12,7 @@ import { Logger } from 'pino';
 import logger from './utils/logger';
 import connect from './utils/dbConnection';
 import ExpressError from './utils/ExpressError';
-import { checkCurrentUser } from './middleware/userMiddleware';
+import { getCurrentUserHandler } from './middleware/userMiddleware';
 
 const log: Logger = logger.createLogger('app');
 
@@ -38,32 +38,12 @@ app.use(
    })
 );
 
-// const sessionConfig = {
-//    secret: 'thisshouldbeabettersecret',
-//    saveUninitialized: true,
-//    resave: false,
-//    cookie: {
-//       domain: 'localhost',
-//       path: '/',
-//       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-//       maxAge: 1000 * 60 * 60 * 24 * 7,
-//    },
-// };
-// app.use(session(sessionConfig));
+app.use(getCurrentUserHandler);
 
-// app.use(checkCurrentUser);
 // ROUTES
 app.use('/', campgroundRoutes);
 app.use('/', reviewRoutes);
 app.use('/', userRoutes);
-
-// app.get(
-//    '/currentUser',
-//    async (req: Request, res: Response, next: NextFunction) => {
-//       console.log('You hit these route');
-//       res.send('You Made it');
-//    }
-// );
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
    next(new ExpressError('Page Not Found', 404));

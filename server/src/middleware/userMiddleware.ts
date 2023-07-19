@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import config from 'config';
 import ExpressError from '../utils/ExpressError';
 import { getUserById } from '../services/user.service';
+import { omit } from 'lodash';
 
 export const requireUser = (
    req: Request,
@@ -29,16 +30,17 @@ export const requireUser = (
    );
 };
 
-export const checkCurrentUser = (
+export const getCurrentUserHandler = async (
    req: Request,
    res: Response,
    next: NextFunction
 ) => {
-   console.log('checkCurrentUser middleware applied');
+   console.log('checkLogout middleware applied');
    const token = req.cookies.token;
    if (!token) {
-      res.locals.user = null;
+      res.cookie('user', null);
       next();
+      return;
    }
 
    jwt.verify(
@@ -46,13 +48,21 @@ export const checkCurrentUser = (
       config.get<string>('jwtSecret'),
       async (err: any, decodedToken: any) => {
          if (err) {
-            res.locals.user = null;
+            res.cookie('user', null);
             next();
+            return;
          } else {
-            let user = await getUserById(decodedToken._id);
-            res.locals.user = user;
-            console.log('res.locals.user', res.locals);
-            next();
+            const singleUser = await getUserById(decodedToken._id);
+            if (!singleUser) {
+               res.cookie('user', null);
+               next();
+               return;
+            } else {
+               const user = omit(singleUser.toJSON(), 'password');
+               res.cookie('user', user);
+               next();
+               return;
+            }
          }
       }
    );

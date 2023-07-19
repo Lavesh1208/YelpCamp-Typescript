@@ -6,7 +6,7 @@ export const findAllCampgrounds = async () => {
 };
 
 export const findCampgroundById = async (id: string) => {
-   return await Campground.findById(id).populate('reviews');
+   return await Campground.findById(id).populate('reviews').populate('author');
 };
 
 export const createCampground = async (input: ICampgroundInput) => {

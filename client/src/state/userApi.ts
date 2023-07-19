@@ -10,10 +10,6 @@ export const userApi = createApi({
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
-    getUser: builder.query<IUser, void>({
-      query: () => "/currentUser",
-      providesTags: ["User"],
-    }),
     registerUser: builder.mutation<IUser, FieldValues>({
       query: (user) => ({
         url: "register",
@@ -40,6 +36,5 @@ export const userApi = createApi({
 export const {
   useRegisterUserMutation,
   useLoginUserMutation,
-  useGetUserQuery,
   useLogoutUserMutation,
 } = userApi;

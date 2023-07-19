@@ -68,36 +68,7 @@ export const logoutUserHandler = async (
       httpOnly: true,
       maxAge: 1,
    });
+   res.cookie('user', null);
    console.log(res.cookie);
    res.send('Logged Out');
-};
-
-export const getCurrentUserHandler = async (
-   req: Request,
-   res: Response,
-   next: NextFunction
-) => {
-   console.log('checkCurrentUser middleware applied');
-   const token = req.cookies.token;
-   if (!token) {
-      res.send(null);
-   }
-
-   jwt.verify(
-      token,
-      config.get<string>('jwtSecret'),
-      async (err: any, decodedToken: any) => {
-         if (err) {
-            res.locals.user = null;
-         } else {
-            const singleUser = await getUserById(decodedToken._id);
-            if (!singleUser) {
-               res.send(null);
-            } else {
-               const user = omit(singleUser.toJSON(), 'password');
-               res.send(user);
-            }
-         }
-      }
-   );
 };

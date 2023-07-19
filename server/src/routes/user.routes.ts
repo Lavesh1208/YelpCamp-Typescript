@@ -2,7 +2,6 @@ import express from 'express';
 import catchAsync from '../middleware/catchAsync';
 import { createUserSchema, loginUserSchema } from '../schemas/user.schema';
 import {
-   getCurrentUserHandler,
    loginUserHandler,
    logoutUserHandler,
    registerUserHandler,
@@ -22,8 +21,6 @@ router.post(
    validateResource(loginUserSchema),
    catchAsync(loginUserHandler)
 );
-
-router.get('/currentUser', catchAsync(getCurrentUserHandler));
 
 router.post('/logout', catchAsync(logoutUserHandler));
 

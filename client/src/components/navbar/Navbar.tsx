@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import MobileNav from "./MobileNav";
 import { Link, useNavigate } from "react-router-dom";
-import { useGetUserQuery, useLogoutUserMutation } from "@/state/userApi";
+import { useLogoutUserMutation } from "@/state/userApi";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/state/store";
 import { setUser } from "@/state/global";
+import { IUser } from "@/interfaces/user.interface";
 
 const menuItems = [
   {
@@ -32,10 +33,13 @@ const Navbar: React.FC<NavbarProps> = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data: user } = useGetUserQuery();
+  //   const { data: user } = useGetUserQuery();
   const [logoutUser] = useLogoutUserMutation();
 
-  const isUser = useSelector((state: RootState) => state.global.isUser);
+  //   @ts-ignore
+  const { isUser, user }: { isUser: boolean; user: IUser } = useSelector(
+    (state: RootState) => state.global
+  );
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -48,18 +52,12 @@ const Navbar: React.FC<NavbarProps> = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      toast(`Welcome Back, ${user.name} !`, {
+    if (isUser && user) {
+      toast(`Welcome, ${user.name} !`, {
         icon: "👋",
       });
     }
-  }, [user]);
-
-  //   useEffect(() => {
-  //     if (isUser) {
-  //       navigate("/campgrounds");
-  //     }
-  //   }, [navigate]);
+  }, [user, isUser]);
 
   return (
     <div className="relative w-full bg-white shadow-lg">
