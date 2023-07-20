@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { IReview } from "@/interfaces/review.interface";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useCreateReviewMutation } from "@/state/reviewApi";
 import { useNavigate } from "react-router-dom";
 import { useGetSingleCampQuery } from "@/state/campgroundApi";
+import StarRating from "./rating/StarRating";
 
 const ReviewForm = ({ _id }: { _id: string }) => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const ReviewForm = ({ _id }: { _id: string }) => {
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<IReview>();
@@ -45,27 +47,27 @@ const ReviewForm = ({ _id }: { _id: string }) => {
 
   return (
     <div className="relative">
-      <div className="font-bold text-3xl mb-3">Leave a Review</div>
+      <div className="font-bold text-3xl mb-1.5">Leave a Review</div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-2">
-          <label className="text-xl font-bold" htmlFor="rating">
-            Rating
-          </label>
-          <input
-            className="w-full appearance-none rounded-full bg-[#F9F6F1]"
-            id="rating"
-            type="range"
-            min={0}
-            max={5}
-            {...register("rating")}
+        <div className="mb-2.5 mt-1">
+          <Controller
+            name="rating"
+            control={control}
+            defaultValue={0}
+            render={({ field }) => (
+              <StarRating
+                rating={field.value}
+                onRatingChange={field.onChange}
+              />
+            )}
           />
         </div>
-        <div className="mb-2">
+        <div className="mb-2 space-y-1">
           <label className="text-xl font-bold" htmlFor="rating">
             Review
           </label>
           <textarea
-            className="w-full rounded-md border-black/30 bg-[#F9F6F1] outline-none px-3 py-3.5 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/80"
+            className="w-full rounded-md border border-black/30 bg-[#F9F6F1] outline-none px-3 py-3.5 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/80"
             id="review"
             rows={5}
             cols={5}

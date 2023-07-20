@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { IUser } from "@/interfaces/user.interface";
 import { RootState } from "@/state/store";
 import { useSelector } from "react-redux";
+import StarRatingStatic from "./rating/StarRatingStatic";
 
 interface ReviewProps {
   review: IReview;
@@ -42,9 +43,9 @@ const Review: React.FC<ReviewProps> = ({ review, campgroundId }) => {
 
   return (
     <div className="relative h-40 border-2 p-4" key={review._id}>
-      <div className="flex gap-3 text-xl font-bold">
-        <h1>Rating:</h1>
-        <p>{review.rating}</p>
+      <div className="flex gap-3 items-center text-xl font-bold">
+        <h1 className="pt-1">Rating:</h1>
+        <StarRatingStatic rating={review.rating} />
       </div>
 
       <div className="flex gap-0.5 text-sm text-gray-500 mt-1 mb-2">
