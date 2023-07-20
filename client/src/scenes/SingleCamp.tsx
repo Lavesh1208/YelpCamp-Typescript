@@ -1,12 +1,14 @@
 import Review from "@/components/Review";
 import ReviewForm from "@/components/ReviewForm";
-import { ICampAndReview } from "@/interfaces/campground.interface";
+import { ICampReviewAndAuthor } from "@/interfaces/campground.interface";
 import {
   useDeleteCampMutation,
   useGetSingleCampQuery,
 } from "@/state/campgroundApi";
+import { RootState } from "@/state/store";
 import { ChevronLeft, ChevronRight, Edit, Trash } from "lucide-react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 const SingleCamp = () => {
@@ -14,6 +16,11 @@ const SingleCamp = () => {
   const { id: campgroundId } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const { data: campground } = useGetSingleCampQuery(campgroundId || "");
+
+  //   @ts-ignore
+  const { user, isUser }: { isUser: boolean; user: IUser } = useSelector(
+    (state: RootState) => state.global
+  );
 
   if (!campground || !campgroundId) {
     return <div>Loading...</div>;
@@ -26,7 +33,8 @@ const SingleCamp = () => {
     price,
     location,
     reviews,
-  }: ICampAndReview = campground;
+    author,
+  }: ICampReviewAndAuthor = campground;
 
   const handleEditButton = (target: string) => {
     navigate(`/campgrounds/${campgroundId}/${target}`, {
@@ -76,39 +84,44 @@ const SingleCamp = () => {
                 </div>
               </div>
 
+              <div className="flex items-center gap-2">
+                <h4 className="text-lg font-bold">Submited By:</h4>
+                <div className="flex gap-1">
+                  <p>{author.name}</p>
+                </div>
+              </div>
+
               <div className="">
                 <h3 className="text-lg font-bold">Description:</h3>
-                <p className="text-ellipsis overflow-hidden max-h-40">
-                  {description}
-                </p>
+                <p className="text-ellipsis overflow-hidden">{description}</p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <button
-                onClick={() => handleEditButton("edit")}
-                type="button"
-                className="inline-flex items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80"
-              >
-                <Edit size={16} className="mr-3" />
-                <span className="block">Edit</span>
-              </button>
-              <button
-                onClick={handleDeleteButton}
-                type="button"
-                className="inline-flex w-full items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80"
-              >
-                <Trash size={16} className="mr-3" />
-                <span className="block">Delete</span>
-              </button>
-            </div>
+            {isUser && user._id === author._id && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <button
+                  onClick={() => handleEditButton("edit")}
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80"
+                >
+                  <Edit size={16} className="mr-3" />
+                  <span className="block">Edit</span>
+                </button>
+                <button
+                  onClick={handleDeleteButton}
+                  type="button"
+                  className="inline-flex w-full items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80"
+                >
+                  <Trash size={16} className="mr-3" />
+                  <span className="block">Delete</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="w-[50%] flex flex-col gap-5">
-          <div className="">
-            <ReviewForm _id={campgroundId} />
-          </div>
+          <div className="">{isUser && <ReviewForm _id={campgroundId} />}</div>
           <div className="space-y-3 h-full overflow-y-scroll">
             {reviews?.map((review) => (
               <Review

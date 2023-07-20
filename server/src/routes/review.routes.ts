@@ -9,18 +9,19 @@ import {
    createReviewSchema,
    deleteReviewSchema,
 } from '../schemas/review.schema';
+import { isReviewAuthor, requireUser } from '../middleware/userMiddleware';
 
 const router = express.Router();
 
 router.post(
    '/campgrounds/:id/reviews',
-   validateResource(createReviewSchema),
+   [validateResource(createReviewSchema), requireUser],
    catchAsync(createReviewHandler)
 );
 
 router.delete(
    '/campgrounds/:id/reviews/:reviewId',
-   validateResource(deleteReviewSchema),
+   [validateResource(deleteReviewSchema), requireUser, isReviewAuthor],
    catchAsync(deleteReviewHandler)
 );
 

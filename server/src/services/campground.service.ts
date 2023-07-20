@@ -1,12 +1,15 @@
 import Campground from '../models/campground.models';
 import { ICampgroundInput } from '../interfaces/campground.interface';
+import Review from '../models/review.moddel';
 
 export const findAllCampgrounds = async () => {
    return await Campground.find();
 };
 
 export const findCampgroundById = async (id: string) => {
-   return await Campground.findById(id).populate('reviews').populate('author');
+   return await Campground.findById(id)
+      .populate({ path: 'reviews', populate: { path: 'author' } })
+      .populate('author');
 };
 
 export const createCampground = async (input: ICampgroundInput) => {
@@ -22,7 +25,10 @@ export const deleteCampground = async (id: string) => {
 };
 
 export const updateCampgroundReviews = async (id: string, reviewId: string) => {
-   return await Campground.findByIdAndUpdate(id, {
+   await Campground.findByIdAndUpdate(id, {
       $pull: { reviews: reviewId },
    });
+
+   await Review.findByIdAndDelete(reviewId);
+   return;
 };

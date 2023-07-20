@@ -6,6 +6,7 @@ export interface IReviewInput {
 }
 
 export interface IReviewDocument extends IReviewInput, Document {
+   author: Document;
    createdAt: Date;
    updatedAt: Date;
 }

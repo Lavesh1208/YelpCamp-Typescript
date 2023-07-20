@@ -55,6 +55,7 @@ export const loginUserHandler = async (
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
    });
+   res.cookie('user', user);
    res.send(user);
 };
 
@@ -63,12 +64,10 @@ export const logoutUserHandler = async (
    res: Response,
    next: NextFunction
 ) => {
-   console.log('checkLogout middleware applied');
    res.cookie('token', '', {
       httpOnly: true,
       maxAge: 1,
    });
    res.cookie('user', null);
-   console.log(res.cookie);
    res.send('Logged Out');
 };

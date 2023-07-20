@@ -21,7 +21,6 @@ function App() {
       const userCookie = Cookies.get("user");
       if (userCookie) {
         const decodedCookie = decodeURIComponent(userCookie);
-        console.log("decodedCookie", decodedCookie);
         const userString = decodedCookie.substring(2);
         const user = JSON.parse(userString);
         setLoggedInUser(user);
@@ -34,7 +33,6 @@ function App() {
     getUserFromCookie();
   }, [dispatch]);
 
-  console.log("User", loggedInUser);
   return (
     <div className="relative app">
       <BrowserRouter>

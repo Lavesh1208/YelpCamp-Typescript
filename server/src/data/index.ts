@@ -30,6 +30,7 @@ export const seedDb = async () => {
          const random1000 = Math.floor(Math.random() * 1000);
          const price = Math.floor(Math.random() * 50);
          const camp = new Campground({
+            author: '64b43bfeebf23bee8c036cb3',
             image: 'https://images.unsplash.com/photo-1503265192943-9d7eea6fc77a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80',
             title: `${sample(descriptors)} ${sample(places)}`,
             price,

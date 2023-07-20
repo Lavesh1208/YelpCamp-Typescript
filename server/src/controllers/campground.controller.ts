@@ -35,6 +35,8 @@ export const createCampgroundHandler = async (
    res: Response
 ) => {
    const campground = await createCampground(req.body.campground);
+   campground.author = req.cookies.user._id;
+   await campground.save();
    res.send(campground);
 };
 

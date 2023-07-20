@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, ObjectId } from 'mongoose';
 
 export interface ICampgroundInput {
    title: string;
@@ -9,7 +9,8 @@ export interface ICampgroundInput {
 }
 
 export interface ICampgroundDocument extends ICampgroundInput, Document {
-   reviews: Document[];
+   reviews: Array<Document>;
+   author: Document;
    createdAt: Date;
    updatedAt: Date;
 }

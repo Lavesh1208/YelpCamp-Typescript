@@ -17,7 +17,9 @@ export const createReviewHandler = async (
    const { id } = req.params;
    const campground = await findCampgroundById(id);
    const review = await createReview(req.body.review);
-   campground?.reviews.push(review);
+   review.author = req.cookies.user._id;
+   await review.save();
+   await campground?.reviews.push(review);
    await campground?.save();
    res.send(campground);
 };
@@ -28,6 +30,5 @@ export const deleteReviewHandler = async (
 ) => {
    const { id, reviewId } = req.params;
    const campground = await updateCampgroundReviews(id, reviewId);
-   await deleteReview(id);
    res.json({ message: 'Review Deleted' });
 };

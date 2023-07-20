@@ -1,4 +1,7 @@
-import { ICampAndReview, ICampground } from "@/interfaces/campground.interface";
+import {
+  ICampReviewAndAuthor,
+  ICampground,
+} from "@/interfaces/campground.interface";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FieldValues } from "react-hook-form";
 
@@ -24,11 +27,11 @@ export const campgroundApi = createApi({
         return sortedData;
       },
     }),
-    getSingleCamp: builder.query<ICampAndReview, string>({
+    getSingleCamp: builder.query<ICampReviewAndAuthor, string>({
       query: (id) => `/campgrounds/${id}`,
       providesTags: ["SingleCampground"],
     }),
-    createCamp: builder.mutation<ICampAndReview, FieldValues>({
+    createCamp: builder.mutation<ICampReviewAndAuthor, FieldValues>({
       query: (campground) => ({
         url: "/campgrounds",
         method: "POST",

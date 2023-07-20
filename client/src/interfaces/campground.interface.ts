@@ -1,4 +1,5 @@
 import { IReview } from "./review.interface";
+import { IUser } from "./user.interface";
 
 export interface ICampground {
   _id: string;
@@ -11,6 +12,7 @@ export interface ICampground {
   updatedAt: Date;
 }
 
-export interface ICampAndReview extends ICampground {
+export interface ICampReviewAndAuthor extends ICampground {
   reviews: IReview[];
+  author: IUser;
 }
