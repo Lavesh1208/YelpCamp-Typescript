@@ -1,4 +1,6 @@
 import express, { Request, Response } from 'express';
+import multer from 'multer';
+import { storage } from '../cloudinaryConfig';
 import {
    getCampgroundsHandler,
    getCampgroundByIdHandler,
@@ -15,6 +17,9 @@ import {
 } from '../schemas/campground.schema';
 import { isAuthor, requireUser } from '../middleware/userMiddleware';
 
+const upload = multer({ storage });
+// const upload = multer({ dest: 'uploads/' });
+
 const router = express.Router();
 
 router.get('/campgrounds', catchAsync(getCampgroundsHandler));
@@ -23,13 +28,17 @@ router.get('/campgrounds/:id', catchAsync(getCampgroundByIdHandler));
 
 router.post(
    '/campgrounds',
-   [validateResource(createCampgroundSchema), requireUser],
+   [
+      upload.array('image'),
+      validateResource(createCampgroundSchema),
+      requireUser,
+   ],
    catchAsync(createCampgroundHandler)
 );
 
 router.put(
    '/campgrounds/:id',
-   [validateResource(updateCampgroundSchema), requireUser, isAuthor],
+   [upload.array('image'), requireUser, isAuthor],
    catchAsync(updateProductHandler)
 );
 

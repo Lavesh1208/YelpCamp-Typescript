@@ -22,6 +22,19 @@ async function connect() {
 const sample = (array: string[]) =>
    array[Math.floor(Math.random() * array.length)];
 
+function generateFileName(length: number = 10): string {
+   const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   let id = '';
+
+   for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      id += characters.charAt(randomIndex);
+   }
+
+   return id;
+}
+
 export const seedDb = async () => {
    try {
       await connect();
@@ -31,7 +44,10 @@ export const seedDb = async () => {
          const price = Math.floor(Math.random() * 50);
          const camp = new Campground({
             author: '64b43bfeebf23bee8c036cb3',
-            image: 'https://images.unsplash.com/photo-1503265192943-9d7eea6fc77a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80',
+            images: {
+               url: 'https://images.unsplash.com/photo-1503265192943-9d7eea6fc77a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80',
+               fileName: generateFileName(),
+            },
             title: `${sample(descriptors)} ${sample(places)}`,
             price,
             location: `${data[random1000].city}, ${data[random1000].state}`,

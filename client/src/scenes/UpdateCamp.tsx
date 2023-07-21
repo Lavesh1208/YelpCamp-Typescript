@@ -11,7 +11,7 @@ const UpdateCamp = () => {
   const navigate = useNavigate();
   const loc = useLocation();
 
-  const { _id, title, price, location, image, description }: ICampground =
+  const { _id, title, price, location, images, description }: ICampground =
     loc.state.data;
 
   const {
@@ -21,13 +21,16 @@ const UpdateCamp = () => {
   } = useForm<FieldValues>();
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
-    const campground = {
-      campground: {
-        ...values,
-        price: parseFloat(values.price as string),
-      },
-    };
-    await updateCamp({ _id, campground });
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("location", values.location);
+    formData.append("price", values.price);
+    formData.append("description", values.description);
+
+    for (let i = 0; i < values.image.length; i++) {
+      formData.append("image", values.image[i]);
+    }
+    await updateCamp({ _id, formData });
   };
 
   useEffect(() => {
@@ -49,6 +52,8 @@ const UpdateCamp = () => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-3 h-full"
+        noValidate
+        encType="multipart/form-data"
       >
         <Inputfield
           id="title"
@@ -79,12 +84,12 @@ const UpdateCamp = () => {
         />
         <Inputfield
           id="image"
-          inputType="text"
+          inputType="file"
           labelText="Image"
-          value={image}
           register={register}
           errors={errors}
           placeHolderText="Imge Url"
+          multiple={true}
         />
         <Inputfield
           id="description"

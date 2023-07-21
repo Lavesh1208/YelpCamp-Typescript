@@ -32,19 +32,23 @@ export const campgroundApi = createApi({
       providesTags: ["SingleCampground"],
     }),
     createCamp: builder.mutation<ICampReviewAndAuthor, FieldValues>({
-      query: (campground) => ({
-        url: "/campgrounds",
-        method: "POST",
-        body: campground,
-      }),
+      query: (campground) => {
+        return {
+          url: "/campgrounds",
+          method: "POST",
+          body: campground,
+        };
+      },
       invalidatesTags: ["AllCampgrounds"],
     }),
     updateCamp: builder.mutation<ICampground, FieldValues>({
-      query: ({ _id, campground }) => ({
-        url: `/campgrounds/${_id}`,
-        method: "PUT",
-        body: campground,
-      }),
+      query: ({ _id, formData: campground }) => {
+        return {
+          url: `/campgrounds/${_id}`,
+          method: "PUT",
+          body: campground,
+        };
+      },
       invalidatesTags: ["AllCampgrounds", "SingleCampground"],
     }),
     deleteCamp: builder.mutation<void, string>({

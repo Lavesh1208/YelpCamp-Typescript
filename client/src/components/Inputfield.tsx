@@ -10,6 +10,7 @@ interface InputfieldProps {
   isTextArea?: boolean;
   required?: boolean;
   placeHolderText: string;
+  multiple?: boolean;
 }
 const Inputfield: React.FC<InputfieldProps> = ({
   id,
@@ -20,6 +21,7 @@ const Inputfield: React.FC<InputfieldProps> = ({
   errors,
   isTextArea,
   placeHolderText,
+  multiple,
 }) => {
   return (
     <div className="flex flex-col w-full">
@@ -49,6 +51,7 @@ const Inputfield: React.FC<InputfieldProps> = ({
             required: `${id[0].toUpperCase() + id.slice(1)} is required`,
           })}
           defaultValue={value}
+          multiple={multiple}
         />
       )}
 

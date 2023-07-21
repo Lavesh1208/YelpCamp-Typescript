@@ -7,7 +7,7 @@ interface CampgroundCardProps {
 }
 
 const CampgroundCard: React.FC<CampgroundCardProps> = ({ campground }) => {
-  const { _id, title, description, image } = campground;
+  const { _id, title, description, images } = campground;
   const navigate = useNavigate();
 
   const onClickHandler = () => {
@@ -16,8 +16,8 @@ const CampgroundCard: React.FC<CampgroundCardProps> = ({ campground }) => {
   return (
     <div className="rounded-md border">
       <img
-        src={image}
-        alt="Laptop"
+        src={images[0].url}
+        alt="Campground"
         className="h-60 w-full rounded-t-md object-cover"
       />
       <div className="p-4">

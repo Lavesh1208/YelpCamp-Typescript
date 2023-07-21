@@ -6,10 +6,15 @@ import {
   useGetSingleCampQuery,
 } from "@/state/campgroundApi";
 import { RootState } from "@/state/store";
-import { ChevronLeft, ChevronRight, Edit, Trash } from "lucide-react";
+import { Edit, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 
 const SingleCamp = () => {
   const [deleteCamp] = useDeleteCampMutation();
@@ -29,7 +34,7 @@ const SingleCamp = () => {
   const {
     title,
     description,
-    image,
+    images,
     price,
     location,
     reviews,
@@ -54,15 +59,25 @@ const SingleCamp = () => {
         <div className="w-[50%] flex-col justify-between">
           <div className="h-[50%] relative shrink-0 overflow-hidden rounded-md border md:mb-3">
             <div className="relative flex items-center justify-center">
-              <img
-                alt="Product gallery 1"
-                src={image}
-                className="rounded-lg object-cover w-full"
-              />
-            </div>
-            <div className="absolute top-2/4 z-10 flex w-full items-center justify-between">
-              <ChevronLeft className="text-white" />
-              <ChevronRight className="text-white" />
+              <>
+                <Swiper
+                  pagination={{
+                    dynamicBullets: true,
+                  }}
+                  modules={[Pagination]}
+                  className="mySwiper"
+                >
+                  {images.map((image) => (
+                    <SwiperSlide key={image._id}>
+                      <img
+                        alt="Product gallery 1"
+                        src={image.url}
+                        className="rounded-lg object-cover w-full"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </>
             </div>
           </div>
 

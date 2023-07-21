@@ -15,13 +15,17 @@ const CreateCamp = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
-    const campground = {
-      campground: {
-        ...values,
-        price: parseFloat(values.price as string),
-      },
-    };
-    await addCamp(campground);
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("location", values.location);
+    formData.append("price", values.price);
+    formData.append("description", values.description);
+
+    for (let i = 0; i < values.image.length; i++) {
+      formData.append("image", values.image[i]);
+    }
+
+    await addCamp(formData);
   };
 
   useEffect(() => {
@@ -49,6 +53,7 @@ const CreateCamp = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-3 h-full"
         noValidate
+        encType="multipart/form-data"
       >
         <Inputfield
           id="title"
@@ -76,11 +81,12 @@ const CreateCamp = () => {
         />
         <Inputfield
           id="image"
-          inputType="text"
+          inputType="file"
           labelText="Image"
           register={register}
           errors={errors}
           placeHolderText="Image Url"
+          multiple={true}
         />
         <Inputfield
           id="description"
