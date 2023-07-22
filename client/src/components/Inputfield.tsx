@@ -49,9 +49,9 @@ const Inputfield: React.FC<InputfieldProps> = ({
           placeholder={placeHolderText}
           {...register(id, {
             required:
-              id !== "deleteImage[]"
+              id !== "deleteImages[]"
                 ? `${id[0].toUpperCase() + id.slice(1)} is required`
-                : undefined,
+                : false,
           })}
           defaultValue={value}
           multiple={multiple}

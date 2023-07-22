@@ -42,21 +42,17 @@ const Review: React.FC<ReviewProps> = ({ review, campgroundId }) => {
   }, [isSuccess, error, refetchCampground]);
 
   return (
-    <div className="relative h-40 border-2 p-4" key={review._id}>
-      <div className="flex gap-3 items-center text-xl font-bold">
-        <h1 className="pt-1">Rating:</h1>
-        <StarRatingStatic rating={review.rating} />
+    <div
+      className="relative bg-white shadow-lg rounded-lg py-4"
+      key={review._id}
+    >
+      <h3 className="text-xl font-semibold">{review.author.name}</h3>
+      <p className="text-gray-600 mt-2">{review.body}</p>
+      <div className="flex items-center mt-4">
+        <span className="text-yellow-500 mr-1">&#9733;</span>
+        <span className="text-gray-700">{review.rating}</span>
       </div>
 
-      <div className="flex gap-0.5 text-sm text-gray-500 mt-1 mb-2">
-        <h1>By</h1>
-        <p>{review.author.name}</p>
-      </div>
-
-      <div className="flex gap-3 text-lg font-semibold">
-        <h1>Review:</h1>
-        <p>{review.body}</p>
-      </div>
       {isUser && user._id === review.author._id && (
         <div className="absolute bottom-2 right-2">
           <button

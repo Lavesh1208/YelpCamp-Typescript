@@ -1,5 +1,6 @@
 import { ICampground } from "@/interfaces/campground.interface";
 import { ArrowUpRight } from "lucide-react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 interface CampgroundCardProps {
@@ -13,11 +14,18 @@ const CampgroundCard: React.FC<CampgroundCardProps> = ({ campground }) => {
   const onClickHandler = () => {
     navigate(`/campgrounds/${_id}`);
   };
+
+  useEffect(() => {
+    if (!images[0]) {
+      return;
+    }
+  }, [images]);
+
   return (
     <div className="rounded-md border">
       <img
-        src={images[0].url}
-        alt="Campground"
+        src={images[0]?.url}
+        alt="Campground Image"
         className="h-60 w-full rounded-t-md object-cover"
       />
       <div className="p-4">

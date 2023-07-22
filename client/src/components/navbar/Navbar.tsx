@@ -11,16 +11,12 @@ import { IUser } from "@/interfaces/user.interface";
 
 const menuItems = [
   {
-    name: "AllCampgrounds",
+    name: "All Campgrounds",
     href: "/campgrounds",
   },
   {
-    name: "About",
-    href: "/about",
-  },
-  {
-    name: "Contact",
-    href: "/contact",
+    name: "Create Campground",
+    href: "/campgrounds/new",
   },
 ];
 
@@ -50,14 +46,6 @@ const Navbar: React.FC<NavbarProps> = () => {
     dispatch(setUser(false));
     toast.success("Logged Out");
   };
-
-  useEffect(() => {
-    if (isUser && user) {
-      toast(`Welcome, ${user.name} !`, {
-        icon: "👋",
-      });
-    }
-  }, [user, isUser]);
 
   return (
     <div className="relative w-full bg-white shadow-lg">

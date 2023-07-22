@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 const AllCampgrounds = () => {
   const { data: campgrounds } = useGetCampgroundsQuery();
+
   return (
     <div className="w-full px-8 py-8">
       <div className="bg-[#F9F6F1] space-y-3 p-10">
@@ -14,19 +15,19 @@ const AllCampgrounds = () => {
           View our hand-picked campgrounds from all over the world, or add your
           own.
         </p>
-        <form className="mt-4 flex items-start space-x-2">
+        <form className="mt-4 flex flex-col md:flex-row md:items-center space-x-2 md:space-y-0">
           <div className="flex gap-2 max-w-fit rounded-md border border-black/30 bg-white px-3.5 py-3.5 placeholder:text-gray-600">
             <Search />
             <input
               className="focus:outline-none"
               type="text"
               placeholder="Search for location"
-            ></input>
+            />
           </div>
           <div>
             <button
               type="button"
-              className="rounded-md bg-black px-5 py-3.5 font-semibold text-white shadow-sm hover:bg-black/80"
+              className="rounded-md -ml-2 mt-2 md:mt-0 md:ml-0 bg-black px-5 py-3.5 font-semibold text-white shadow-sm hover:bg-black/80"
             >
               Search
             </button>
@@ -39,7 +40,7 @@ const AllCampgrounds = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pt-10 gap-10">
         {campgrounds &&
           campgrounds.map((campground: ICampground) => (
-            <div key={campground._id}>
+            <div key={campground._id} className="flex justify-center">
               <CampgroundCard campground={campground} />
             </div>
           ))}

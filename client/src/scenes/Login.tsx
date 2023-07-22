@@ -41,7 +41,7 @@ const Login = () => {
   }, [isSuccess, error, navigate, data, dispatch]);
 
   return (
-    <div className="md:w-1/2 mx-auto h-full">
+    <div className="md:w-1/2 mx-auto h-full px-4">
       <h1 className="text-3xl font-bold mt-10 mb-5">Login</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}

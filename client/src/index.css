@@ -13,6 +13,10 @@ body,
   font-family: "Inter", sans-serif;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 .swiper {
   width: 100%;
   height: 100%;

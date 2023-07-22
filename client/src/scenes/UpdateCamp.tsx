@@ -21,7 +21,6 @@ const UpdateCamp = () => {
   } = useForm<FieldValues>();
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
-    console.log("values", values);
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("location", values.location);

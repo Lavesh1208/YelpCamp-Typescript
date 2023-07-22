@@ -47,7 +47,7 @@ const CreateCamp = () => {
   }, [isSuccess, data, navigate, error]);
 
   return (
-    <div className="md:w-1/2 mx-auto h-full">
+    <div className="md:w-1/2 mx-auto h-full px-4">
       <h1 className="text-3xl font-bold mt-10 mb-5">Create New Campground</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}

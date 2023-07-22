@@ -54,25 +54,25 @@ const SingleCamp = () => {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-2 lg:px-0 py-6">
-      <div className="flex gap-5 max-h-[88vh]">
-        <div className="w-[50%] flex-col justify-between">
-          <div className="h-[50%] relative shrink-0 overflow-hidden rounded-md border md:mb-3">
-            <div className="relative flex items-center justify-center">
+    <div className="mx-auto max-w-7xl px-4 lg:px-4 py-6">
+      <div className="flex flex-col gap-10 max-h-[88vh] lg:flex-row">
+        <div className="w-full lg:w-1/2 flex-col justify-between">
+          <div className="h-1/2 relative shrink-0 overflow-hidden rounded-md border md:mb-3">
+            <div className="h-full relative flex items-center justify-center">
               <>
                 <Swiper
                   pagination={{
                     dynamicBullets: true,
                   }}
                   modules={[Pagination]}
-                  className="mySwiper"
+                  className="mySwiper h-full"
                 >
                   {images.map((image) => (
                     <SwiperSlide key={image._id}>
                       <img
                         alt="Product gallery 1"
                         src={image.url}
-                        className="rounded-lg object-cover w-full"
+                        className="rounded-lg object-cover w-full max-h-96 sm:max-h-[500px] md:h-full"
                       />
                     </SwiperSlide>
                   ))}
@@ -81,7 +81,7 @@ const SingleCamp = () => {
             </div>
           </div>
 
-          <div className="shrink-0 flex flex-col h-[50%] justify-between">
+          <div className="shrink-0 flex flex-col h-1/2 justify-between mt-2">
             <div className="space-y-4">
               <h1 className="text-xl font-bold md:text-2xl xl:text-3xl">
                 {title}
@@ -100,7 +100,7 @@ const SingleCamp = () => {
               </div>
 
               <div className="flex items-center gap-2">
-                <h4 className="text-lg font-bold">Submited By:</h4>
+                <h4 className="text-lg font-bold">Submitted By:</h4>
                 <div className="flex gap-1">
                   <p>{author.name}</p>
                 </div>
@@ -113,7 +113,7 @@ const SingleCamp = () => {
             </div>
 
             {isUser && user._id === author._id && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
                 <button
                   onClick={() => handleEditButton("edit")}
                   type="button"
@@ -135,9 +135,9 @@ const SingleCamp = () => {
           </div>
         </div>
 
-        <div className="w-[50%] flex flex-col gap-5">
+        <div className="w-full lg:w-1/2 flex flex-col gap-5">
           <div className="">{isUser && <ReviewForm _id={campgroundId} />}</div>
-          <div className="space-y-3 h-full overflow-y-scroll">
+          <div className="space-y-3 h-full overflow-y-scroll scrollbar-hide">
             {reviews?.map((review) => (
               <Review
                 campgroundId={campgroundId}

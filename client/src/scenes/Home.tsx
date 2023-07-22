@@ -7,13 +7,14 @@ const Home = () => {
   const onClickHandler = () => {
     navigate("/campgrounds");
   };
+
   return (
-    <div className="relative w-screen h-full overflow-hidden bg-[#F9F6F1]">
-      <div className="block md:absolute w-44 top-10 left-20">
-        <img className="w-full" src="/images/Logo.svg" alt="" />
+    <div className="relative flex flex-col lg:flex-row w-screen h-full overflow-x-hidden lg:overflow-hidden bg-[#F9F6F1] scrollbar-hide">
+      <div className="block z-50 lg:absolute bg-[#F9F6F1] p-5 w-full lg:w-44 top-10 left-16">
+        <img className="w-44" src="/images/Logo.svg" alt="" />
       </div>
-      <div className="w-full h-full flex">
-        <div className="flex flex-col justify-center w-[45%] h-full gap-5 lg:px-20">
+      <div className="w-full h-full flex flex-col-reverse lg:flex-row">
+        <div className="flex flex-col lg:justify-center w-full lg:w-[45%] h-full gap-5 py-20 px-10 sm:p-12 md:px-20 ">
           <h1 className="text-3xl font-bold tracking-tight text-black md:text-4xl lg:text-6xl">
             Explore the best camps on Earth.
           </h1>
@@ -51,9 +52,9 @@ const Home = () => {
             </p>
           </div>
         </div>
-        <div className="w-[55%]">
+        <div className="w-full lg:w-[55%]">
           <img
-            className="h-full aspect-[3/2] bg-gray-50 object-cover lg:aspect-[4/3] xl:aspect-[16/9]"
+            className="w-full h-full aspect-[3/2] bg-gray-50 object-cover"
             src="https://images.unsplash.com/photo-1545943322-e349aefd8725?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80"
             alt=""
           />
