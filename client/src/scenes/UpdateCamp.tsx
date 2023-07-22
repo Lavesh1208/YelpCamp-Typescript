@@ -21,11 +21,13 @@ const UpdateCamp = () => {
   } = useForm<FieldValues>();
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
+    console.log("values", values);
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("location", values.location);
     formData.append("price", values.price);
     formData.append("description", values.description);
+    formData.append("deleteImages", values.deleteImages);
 
     for (let i = 0; i < values.image.length; i++) {
       formData.append("image", values.image[i]);
@@ -47,7 +49,7 @@ const UpdateCamp = () => {
   }, [isSuccess, data, navigate, error]);
 
   return (
-    <div className="md:w-1/2 mx-auto h-full">
+    <div className="md:w-1/2 mx-auto h-full px-4">
       <h1 className="text-3xl font-bold mt-14 mb-8">Update Campground</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -107,6 +109,22 @@ const UpdateCamp = () => {
         >
           Confirm and Update
         </button>
+        <div className="flex flex-wrap">
+          {images.map((image) => (
+            <div key={image._id} className="w-28 h-28">
+              <img src={image.url} alt="" />
+              <Inputfield
+                id="deleteImages[]"
+                inputType="checkbox"
+                labelText="Description"
+                value={image.filename}
+                register={register}
+                errors={errors}
+                placeHolderText="Give a description of your camp"
+              />
+            </div>
+          ))}
+        </div>
       </form>
     </div>
   );

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { cloudinary } from '../cloudinaryConfig';
 import {
    createCampground,
    deleteCampground,
@@ -76,6 +77,17 @@ export const updateProductHandler = async (
    }));
    campground.images.push(...imageArray);
    await campground.save();
+   if (req.body.deleteImages) {
+      const deleteImagesArray = req.body.deleteImages.split(',');
+      console.log('deleteImagesArray', deleteImagesArray);
+      for (let filename of deleteImagesArray) {
+         await cloudinary.uploader.destroy(filename);
+      }
+      await campground.updateOne({
+         $pull: { images: { filename: { $in: deleteImagesArray } } },
+      });
+      console.log(campground);
+   }
    res.send(campground);
 };
 

@@ -14,6 +14,7 @@ const payload = {
       description: string({
          required_error: 'Description is required',
       }),
+      deleteImages: string().optional(),
    }),
 };
 
