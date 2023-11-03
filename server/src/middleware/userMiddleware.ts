@@ -37,7 +37,12 @@ export const getCurrentUserHandler = async (
 ) => {
    const token = req.cookies.token;
    if (!token) {
-      res.cookie('user', null);
+      res.cookie('user', null, {
+         httpOnly: true,
+         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+         sameSite: 'none',
+         secure: true,
+      });
       next();
       return;
    }
@@ -47,7 +52,12 @@ export const getCurrentUserHandler = async (
       process.env.JWT_SECRET as string,
       async (err: any, decodedToken: any) => {
          if (err) {
-            res.cookie('user', null);
+            res.cookie('user', null, {
+               httpOnly: true,
+               expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+               sameSite: 'none',
+               secure: true,
+            });
             next();
             return;
          } else {
@@ -58,7 +68,12 @@ export const getCurrentUserHandler = async (
                return;
             } else {
                const user = omit(singleUser.toJSON(), 'password');
-               res.cookie('user', user);
+               res.cookie('user', user, {
+                  httpOnly: true,
+                  expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                  sameSite: 'none',
+                  secure: true,
+               });
                next();
                return;
             }

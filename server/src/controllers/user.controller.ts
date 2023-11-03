@@ -17,7 +17,7 @@ export const registerUserHandler = async (
 
    res.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       sameSite: 'none',
       secure: true,
    });
@@ -53,7 +53,7 @@ export const loginUserHandler = async (
 
    res.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       sameSite: 'none',
       secure: true,
    });
@@ -68,7 +68,7 @@ export const logoutUserHandler = async (
 ) => {
    res.cookie('token', '', {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       sameSite: 'none',
       secure: true,
    });
