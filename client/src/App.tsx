@@ -13,43 +13,43 @@ import { setUser } from "./state/global";
 import { useDispatch } from "react-redux";
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const dispatch = useDispatch();
+	const [_loggedInUser, setLoggedInUser] = useState(null);
+	const dispatch = useDispatch();
 
-  useEffect(() => {
-    const getUserFromCookie = () => {
-      const userCookie = Cookies.get("user");
-      if (userCookie) {
-        const decodedCookie = decodeURIComponent(userCookie);
-        const userString = decodedCookie.substring(2);
-        const user = JSON.parse(userString);
-        setLoggedInUser(user);
-        dispatch(setUser({ isUser: true, user: { ...user } }));
-      } else {
-        setLoggedInUser(null);
-      }
-    };
+	useEffect(() => {
+		const getUserFromCookie = () => {
+			const userCookie = Cookies.get("user");
+			if (userCookie) {
+				const decodedCookie = decodeURIComponent(userCookie);
+				const userString = decodedCookie.substring(2);
+				const user = JSON.parse(userString);
+				setLoggedInUser(user);
+				dispatch(setUser({ isUser: true, user: { ...user } }));
+			} else {
+				setLoggedInUser(null);
+			}
+		};
 
-    getUserFromCookie();
-  }, [dispatch]);
+		getUserFromCookie();
+	}, [dispatch]);
 
-  return (
-    <div className="relative app">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route element={<Layout />}>
-            <Route path="/campgrounds" element={<AllCampgrounds />} />
-            <Route path="/campgrounds/:id" element={<SingleCamp />} />
-            <Route path="/campgrounds/new" element={<CreateCamp />} />
-            <Route path="/campgrounds/:id/edit" element={<UpdateCamp />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+	return (
+		<div className="relative app">
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route element={<Layout />}>
+						<Route path="/campgrounds" element={<AllCampgrounds />} />
+						<Route path="/campgrounds/:id" element={<SingleCamp />} />
+						<Route path="/campgrounds/new" element={<CreateCamp />} />
+						<Route path="/campgrounds/:id/edit" element={<UpdateCamp />} />
+						<Route path="/register" element={<Register />} />
+						<Route path="/login" element={<Login />} />
+					</Route>
+				</Routes>
+			</BrowserRouter>
+		</div>
+	);
 }
 
 export default App;

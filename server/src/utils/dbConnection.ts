@@ -1,5 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import mongoose from 'mongoose';
-import Campground from '../models/campground.models';
 
 async function connect() {
    const dbUri = process.env.MONGO_URI as string;
