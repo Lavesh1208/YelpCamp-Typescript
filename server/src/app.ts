@@ -3,18 +3,15 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
-import config from 'config';
+import dotenv from 'dotenv';
+dotenv.config();
 import cookieParser from 'cookie-parser';
 import campgroundRoutes from './routes/campground.routes';
 import reviewRoutes from './routes/review.routes';
 import userRoutes from './routes/user.routes';
-import { Logger } from 'pino';
-import logger from './utils/logger';
 import connect from './utils/dbConnection';
 import ExpressError from './utils/ExpressError';
 import { getCurrentUserHandler } from './middleware/userMiddleware';
-
-const log: Logger = logger.createLogger('app');
 
 const app = express();
 
@@ -56,15 +53,15 @@ const errorHandler = (
    next: NextFunction
 ): void => {
    const { statusCode = 500, message = 'Something went wrong' } = err;
-   log.error(err);
+   console.log(err);
    res.status(statusCode).send(message);
 };
 
 app.use(errorHandler);
 
-const PORT = config.get<number>('port');
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, async () => {
    await connect();
-   log.info(`Listening on port http://localhost:${PORT}`);
+   console.log(`Listening on port http://localhost:${PORT}`);
 });

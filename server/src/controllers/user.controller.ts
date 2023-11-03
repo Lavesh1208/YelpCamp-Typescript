@@ -1,10 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { omit } from 'lodash';
-import jwt from 'jsonwebtoken';
-import config from 'config';
-import { CreateUserInput } from '../schemas/user.schema';
-import { createUser, getUser, getUserById } from '../services/user.service';
 import { IUserDocument } from '../interfaces/user.interface';
+import { CreateUserInput } from '../schemas/user.schema';
+import { createUser, getUser } from '../services/user.service';
 import ExpressError from '../utils/ExpressError';
 
 export const registerUserHandler = async (

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import bcryptjs from 'bcryptjs';
-import config from 'config';
 import jwt from 'jsonwebtoken';
 import { IUserDocument } from '../interfaces/user.interface';
 const Schema = mongoose.Schema;
@@ -24,7 +23,7 @@ userSchema.pre('save', async function (next) {
       return next();
    }
 
-   const saltWorkFactor = config.get<number>('saltWorkFactor');
+   const saltWorkFactor = process.env.SALT_WORK_FACTOR as string;
    const salt = await bcryptjs.genSalt(Number(saltWorkFactor));
 
    const hash = await bcryptjs.hash(user.password, salt);
@@ -42,7 +41,7 @@ userSchema.methods.getJWTToken = function () {
          resetPasswordToken: this.resetPasswordToken,
          resetPasswordExpires: this.resetPasswordExpires,
       },
-      config.get<string>('jwtSecret'),
+      process.env.JWT_SECRET as string,
       {
          expiresIn: 60 * 60 * 24 * 7,
       }

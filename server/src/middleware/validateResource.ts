@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import ExpressError from '../utils/ExpressError';
+import { NextFunction, Request, Response } from 'express';
 import { AnyZodObject } from 'zod';
+import ExpressError from '../utils/ExpressError';
 
 const validateResource =
    (shcema: AnyZodObject) =>

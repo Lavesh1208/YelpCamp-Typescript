@@ -1,11 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import config from 'config';
-import ExpressError from '../utils/ExpressError';
 import { omit } from 'lodash';
 import { findCampgroundById } from '../services/campground.service';
-import { getUserById } from '../services/user.service';
 import { findReview } from '../services/review.service';
+import { getUserById } from '../services/user.service';
+import ExpressError from '../utils/ExpressError';
 
 export const requireUser = (
    req: Request,
@@ -19,7 +18,7 @@ export const requireUser = (
 
    jwt.verify(
       token,
-      config.get<string>('jwtSecret'),
+      process.env.JWT_SECRET as string,
       (err: any, decodedToken: any) => {
          if (err) {
             console.log(err);
@@ -45,7 +44,7 @@ export const getCurrentUserHandler = async (
 
    jwt.verify(
       token,
-      config.get<string>('jwtSecret'),
+      process.env.JWT_SECRET as string,
       async (err: any, decodedToken: any) => {
          if (err) {
             res.cookie('user', null);

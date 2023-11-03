@@ -7,16 +7,12 @@ import {
    findCampgroundById,
    updateCampground,
 } from '../services/campground.service';
-import { Logger } from 'pino';
-import logger from '../utils/logger';
 import {
    CreateCampgroundInput,
    DeleteCampgroundInput,
    GetCampgroundInput,
    UpdateCampgroundInput,
 } from '../schemas/campground.schema';
-
-const log: Logger = logger.createLogger('campground controller');
 
 type CreateCampgroundRequest = Request<
    {},

@@ -1,20 +1,15 @@
 import mongoose from 'mongoose';
-import config from 'config';
 import Campground from '../models/campground.models';
 import { data } from './cities';
 import { descriptors, places } from './seedHelpers';
-import { Logger } from 'pino';
-import logger from '../utils/logger';
-
-const log: Logger = logger.createLogger('dbConnection');
 
 async function connect() {
-   const dbUri = config.get<string>('dbUri');
+   const dbUri = process.env.MONGO_URI as string;
    try {
       await mongoose.connect(dbUri);
-      log.info('Database connected');
+      console.log('Database connected');
    } catch (e) {
-      log.error('Database connection error', e);
+      console.log('Database connection error', e);
       process.exit(1);
    }
 }
@@ -57,7 +52,7 @@ export const seedDb = async () => {
          await camp.save();
       }
    } catch (e) {
-      log.error('-----ERROR-----', e);
+      console.log('-----ERROR-----', e);
       process.exit(1);
    }
 };
